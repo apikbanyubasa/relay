@@ -115,7 +115,7 @@ relay/
     │   │   ├── admin/users/page.tsx# Super Admin team management portal
     │   │   └── standup/page.tsx    # Daily Standup Intelligence dashboard
     │   ├── components/
-    │   │   ├── board/              # Kanban, TaskCard, TaskDetailModal, DeliverablesTable, CreateProject
+    │   │   ├── board/              # Kanban, TaskCard, TaskDetailModal, DeliverablesTable, CreateProject, ProjectMembersModal
     │   │   ├── client/             # ClientMetricsView (Masked public portal)
     │   │   ├── standup/            # StandupReportView (Completed yesterday, Blocked today)
     │   │   └── ui/                 # ConflictModal (409), Navbar, Loading/Error/Empty states

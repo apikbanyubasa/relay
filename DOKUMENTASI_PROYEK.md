@@ -500,6 +500,7 @@ frontend/
 │   │   │   ├── DeliverablesTableView.tsx # Tabel data ezfilter lengkap sorting & search
 │   │   │   ├── CreateTaskModal.tsx     # Modal pembuatan deliverable (PM / Super Admin)
 │   │   │   ├── CreateProjectModal.tsx  # Modal pembuatan proyek baru
+│   │   │   ├── ProjectMembersModal.tsx # Modal kelola tim kolaborator & pemetaan klien
 │   │   │   └── ArchivedProjectsModal.tsx # Modal manajemen arsip & restore proyek
 │   │   ├── client/
 │   │   │   └── ClientMetricsView.tsx   # Tampilan portal aman khusus Client Guest
