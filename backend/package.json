@@ -1,0 +1,49 @@
+{
+  "name": "backend",
+  "main": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "test": "tsx src/test_api_flow.ts && tsx src/test_user_flow.ts && tsx --test src/services/task.service.test.ts",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "prepare": "husky",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "build": "prisma generate",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.2",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.6.3",
+    "@types/supertest": "^7.2.1",
+    "esbuild": "^0.28.2",
+    "husky": "^9.1.7",
+    "prisma": "^6.4.1",
+    "supertest": "^7.3.1",
+    "tsx": "^4.23.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.7",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "zod": "^4.6.5"
+  }
+}
