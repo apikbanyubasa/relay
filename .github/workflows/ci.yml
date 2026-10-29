@@ -13,6 +13,21 @@ jobs:
     defaults:
       run:
         working-directory: backend
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: relay_task_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -30,8 +45,19 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      - name: Check Linting & Formatting (Biome)
-        run: npm run lint
+      - name: Push Database Schema
+        run: npx prisma db push
+        env:
+          DATABASE_URL: "postgresql://postgres:postgrespassword@localhost:5432/relay_task_db?schema=public"
+
+      - name: Seed Database
+        run: npx tsx prisma/seed.ts
+        env:
+          DATABASE_URL: "postgresql://postgres:postgrespassword@localhost:5432/relay_task_db?schema=public"
+          JWT_SECRET: "relay-test-secret-ci-key-2026-safe"
+
+      - name: Check Linting (Biome)
+        run: npx @biomejs/biome lint
 
       - name: Run Backend Tests
         run: npm test
@@ -66,7 +92,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Check Linting (Biome)
-        run: npm run lint
+        run: npx @biomejs/biome lint
 
       - name: Run Frontend Tests
         run: npm test
@@ -75,4 +101,3 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BE_URL: "http://localhost:4000"
-
