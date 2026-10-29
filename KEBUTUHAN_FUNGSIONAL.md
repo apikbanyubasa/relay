@@ -1,124 +1,79 @@
-# MATRIKS KEBUTUHAN FUNGSIONAL SISTEM (SRS AUDIT RIIL)
-## Relay Task Management Engine
+# MATRIKS KEBUTUHAN FUNGSIONAL & TRACEABILITY TEST CASE
+## Relay Task Management Engine — Enterprise SRS & QA Matrix
 
-Dokumen ini disusun berdasarkan **Audit Riil Kode Sumber** (*Source-Code Deep Scan*) pada seluruh file routing backend Express 5 dan komponen interaktif frontend Next.js 16.
-
----
-
-## 📊 Ringkasan Statistik Faktual Sistem
-- **Total Kebutuhan Fungsional:** **89 Kebutuhan Fungsional**
-- **Frontend (Antarmuka & Interaksi Pengguna):** **45 KF**
-- **Backend (Endpoint API & Logika Bisnis):** **44 KF**
+> **Standar Taksonomi Mutu Perangkat Lunak:**
+> - **Kebutuhan Fungsional (KF / Induk):** Pernyataan spesifikasi kemampuan, layanan, atau fitur tingkat tinggi yang **wajib disediakan sistem** (*what the system must do*).
+> - **Test Case (TC / Anak):** Skenario pengujian spesifik, langkah eksekusi, serta kriteria hasil yang diturunkan dari setiap KF untuk membuktikan validitasnya (*happy path, negative path, edge cases, RBAC security guards*).
 
 ---
 
-## 🖥️ BAGIAN 1: TABEL KEBUTUHAN FUNGSIONAL FRONTEND (TOTAL: 45 KF)
-*Diverifikasi langsung dari file `frontend/src/app/` dan `frontend/src/components/`.*
+## 📊 Ringkasan Eksekutif Sistem Faktual
 
-| Kode | Kebutuhan Fungsional Frontend | Komponen File Asli | Aktor Utama |
-| :---: | :--- | :--- | :--- |
-| **KF-FE-01** | Menampilkan Halaman Login dan Form Kredensial | `app/login/page.tsx` | Semua Pengunjung |
-| **KF-FE-02** | Memvalidasi Format Input Login Sisi Klien (Email & Password Required) | `app/login/page.tsx` | Semua Pengunjung |
-| **KF-FE-03** | Menampilkan Indikator Loading (*Authenticating...*) dan Disable Tombol | `app/login/page.tsx` | Semua Pengunjung |
-| **KF-FE-04** | Menampilkan Banner Peringatan Kesalahan Login (*Invalid email or password*) | `app/login/page.tsx` | Semua Pengunjung |
-| **KF-FE-05** | Mengisi Form Login Otomatis Menggunakan Tombol *Quick Demo Switcher* | `app/login/page.tsx` | Semua Pengunjung |
-| **KF-FE-06** | Menampilkan Identitas Pengguna Aktif (Nama, Avatar, Badge Peran) di Navbar | `components/ui/Navbar.tsx` | Semua User Login |
-| **KF-FE-07** | Berpindah Antar-Proyek Menggunakan Dropdown Pemilih Proyek (*Project Selector*) | `components/ui/Navbar.tsx` | Semua User Login |
-| **KF-FE-08** | Membuka Menu Aksi Workspace (Create, Members, Archive, Restore) | `components/ui/Navbar.tsx` | Semua User Login |
-| **KF-FE-09** | Melakukan Logout Akun dari Navbar dan Mengosongkan Sesi Zustand | `components/ui/Navbar.tsx` | Semua User Login |
-| **KF-FE-10** | Mengakses Halaman Pengaturan Akun Mandiri (`/settings`) | `app/settings/page.tsx` | Semua User Login |
-| **KF-FE-11** | Melihat Informasi Akun Pribadi (Email, Role, Tanggal Bergabung) | `app/settings/page.tsx` | Semua User Login |
-| **KF-FE-12** | Mengedit Nama Profil Pribadi dan Menyimpan Perubahan | `app/settings/page.tsx` | Semua User Login |
-| **KF-FE-13** | Mengedit URL Foto Avatar dengan Pratinjau Gambar Langsung (*Live Preview*) | `app/settings/page.tsx` | Semua User Login |
-| **KF-FE-14** | Mengubah Kata Sandi Pribadi dengan Verifikasi Password Lama dan Baru | `app/settings/page.tsx` | Semua User Login |
-| **KF-FE-15** | Beralih Visibilitas Teks Kata Sandi (*Show/Hide Password Toggle*) | `app/settings/page.tsx` | Semua User Login |
-| **KF-FE-16** | Mengakses Portal Tata Kelola Anggota Tim (`/admin/users`) | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-17** | Menampilkan Kartu Metrik Ringkasan Pengguna (Total, Admin, PM, Team, Client) | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-18** | Mencari Data Pengguna Secara Real-time dengan Jeda *Debounce* 300ms | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-19** | Menyaring Data Pengguna Berdasarkan Dropdown Role dan Departemen | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-20** | Menampilkan Tabel Anggota Tim Beserta Beban Kerja (*Workload Chips*) | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-21** | Menambah Pengguna Baru via Modal Formulir (*Create User Modal*) | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-22** | Mengedit Profil, Peran, dan Departemen Pengguna via Modal Edit | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-23** | Mereset Kata Sandi Pengguna Tim via Modal Admin Reset Password | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-24** | Menonaktifkan Akun Pengguna (*Soft Delete*) via Dialog Konfirmasi | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-25** | Menampilkan Peringatan Larangan Hapus Akun Sendiri (*Self-Delete Guard*) | `app/admin/users/page.tsx` | Super Admin |
-| **KF-FE-26** | Membuat Proyek Baru Melalui Modal *CreateProjectModal* | `components/board/CreateProjectModal.tsx` | Super Admin, PM |
-| **KF-FE-27** | Melihat Daftar Anggota Tim yang Tergabung dalam Proyek Aktif | `components/board/ProjectMembersModal.tsx` | Super Admin, PM |
-| **KF-FE-28** | Menambah dan Menghapus Anggota Tim dari Proyek Aktif | `components/board/ProjectMembersModal.tsx` | Super Admin, PM |
-| **KF-FE-29** | Menambah dan Menghapus Akses Klien Guest pada Proyek Aktif | `components/board/ProjectMembersModal.tsx` | Super Admin, PM |
-| **KF-FE-30** | Mengarsipkan Proyek Aktif (*Archive*) Melalui Dialog SweetAlert2 | `components/ui/Navbar.tsx` | Super Admin, PM |
-| **KF-FE-31** | Melihat Daftar Proyek Terarsip Melalui Modal *ArchivedProjectsModal* | `components/board/ArchivedProjectsModal.tsx` | Super Admin, PM |
-| **KF-FE-32** | Memulihkan (*Restore*) Proyek Terarsip Beserta Seluruh Deliverable Anak | `components/board/ArchivedProjectsModal.tsx` | Super Admin, PM |
-| **KF-FE-33** | Beralih Antara Mode Papan Kanban dan Mode Tabel Data (*View Switcher*) | `app/page.tsx` | Semua User Login |
-| **KF-FE-34** | Menyaring Deliverable Personal Menggunakan Tombol *"My Tasks"* | `app/page.tsx` | Tim Internal |
-| **KF-FE-35** | Menampilkan Papan Kanban 4 Kolom Status (TODO, PROGRESS, REVIEW, DONE) | `components/board/KanbanColumn.tsx` | Semua User Login |
-| **KF-FE-36** | Menampilkan Kartu Deliverable dengan Badge Prioritas, Dept, dan Assignee | `components/board/TaskCard.tsx` | Semua User Login |
-| **KF-FE-37** | Menampilkan Penanda Tugas Terkunci (*BLOCKED Badge*) dan Tooltip Info | `components/board/TaskCard.tsx` | Semua User Login |
-| **KF-FE-38** | Menambah Deliverable Baru Melalui Formulir Modal *CreateTaskModal* | `components/board/CreateTaskModal.tsx` | Super Admin, PM |
-| **KF-FE-39** | Mencari Substring Judul dan Deskripsi pada Tabel Deliverable `ezfilter` | `components/board/DeliverablesTableView.tsx` | Semua User Login |
-| **KF-FE-40** | Menyaring Baris Tabel Deliverable Berdasarkan Pilihan Departemen | `components/board/DeliverablesTableView.tsx` | Semua User Login |
-| **KF-FE-41** | Mengurutkan Kolom Tabel Deliverable (*Multi-Column Sorting*) | `components/board/DeliverablesTableView.tsx` | Semua User Login |
-| **KF-FE-42** | Menavigasi Paginasi Server-Side Tabel Deliverable (First, Prev, Next, Last) | `components/board/DeliverablesTableView.tsx` | Semua User Login |
-| **KF-FE-43** | Membuka Rincian Lengkap Task (Tab Overview, Deps, Audit, Attachments) | `components/board/TaskDetailModal.tsx` | Semua User Login |
-| **KF-FE-44** | Menampilkan Dialog Tabrakan Versi Data (*ConflictModal* saat HTTP 409) | `components/ui/ConflictModal.tsx` | Semua User Login |
-| **KF-FE-45** | Menampilkan Dashboard Laporan Intelijen Daily Standup 24 Jam (`/standup`) | `app/standup/page.tsx` | Super Admin, PM, Tim |
+Berdasarkan audit riil kode sumber (*source-code deep scan*):
+- **Backend (API & Business Engine):** **16 KF Induk** (mencakup seluruh **44 Endpoint HTTP Unik** dan **44+ Skenario Test Case**).
+- **Frontend (UI & Interaction):** **15 KF Induk** (mencakup seluruh antarmuka pengguna, komponen interaktif, dan **45+ Skenario Test Case**).
+- **Automated QA Suite:** Terpetakan langsung ke dalam **10 File Spesifikasi Playwright** (`relay-qa-automation-test/tests/`) dan runner pengujian internal (`backend` Supertest & `frontend` tsx test runner).
 
 ---
 
-## ⚡ BAGIAN 2: TABEL KEBUTUHAN FUNGSIONAL BACKEND (TOTAL: 44 KF)
-*Diverifikasi langsung dari file `backend/src/routes/` dan `backend/src/index.ts`.*
+## ⚡ BAGIAN 1: KEBUTUHAN FUNGSIONAL BACKEND (INDUK & ANAK TEST CASE)
 
-| Kode | Kebutuhan Fungsional Backend | Target Endpoint HTTP | Aktor / Pemanggil |
-| :---: | :--- | :--- | :--- |
-| **KF-BE-01** | Menyajikan Informasi Status Welcome API Relay Engine | `GET /` | Publik / Monitoring |
-| **KF-BE-02** | Memverifikasi Kesehatan Koneksi Database PostgreSQL | `GET /health` | Publik / Monitoring |
-| **KF-BE-03** | Mendaftarkan Akun Baru dengan Validasi Schema Zod dan Role/Dept | `POST /api/auth/register` | Klien HTTP |
-| **KF-BE-04** | Memvalidasi Kredensial Login dan Verifikasi Hash Kata Sandi `bcryptjs` | `POST /api/auth/login` | Klien HTTP |
-| **KF-BE-05** | Menerbitkan Token JWT dan Memasang Cookie `HttpOnly; Secure` | `POST /api/auth/login` | Klien HTTP |
-| **KF-BE-06** | Mengambil Data Profil Pengguna Aktif Berdasarkan Token Cookie Sesi | `GET /api/auth/me` | User Terautentikasi |
-| **KF-BE-07** | Membersihkan Cookie Sesi `auth_token` untuk Mengakhiri Sesi | `POST /api/auth/logout` | User Terautentikasi |
-| **KF-BE-08** | Mengambil Data Profil Mandiri Pengguna Aktif | `GET /api/users/profile` | Semua User Login |
-| **KF-BE-09** | Mengedit Nama Tampilan dan URL Avatar Pengguna Pribadi | `PATCH /api/users/profile` | Semua User Login |
-| **KF-BE-10** | Mengubah Kata Sandi Mandiri dengan Verifikasi Sandi Lama | `PUT /api/users/change-password` | Semua User Login |
-| **KF-BE-11** | Mengambil Daftar Klien Guest yang Tersedia untuk Ditugaskan ke Proyek | `GET /api/users/clients` | Super Admin, PM |
-| **KF-BE-12** | Mengambil Daftar Pengguna yang Tersedia Dipilih Sebagai Assignee Deliverable / Anggota Proyek | `GET /api/users/assignees` | Super Admin, PM, Tim |
-| **KF-BE-13** | Mengambil Daftar Pengguna Tim (Paginasi, Search, Role, Dept Filter) | `GET /api/users` | Super Admin |
-| **KF-BE-14** | Mendaftarkan Pengguna Tim Baru dengan Pengecekan Keunikan Email | `POST /api/users` | Super Admin |
-| **KF-BE-15** | Mengambil Rincian Lengkap Data Satu Pengguna Berdasarkan ID | `GET /api/users/:id` | Super Admin |
-| **KF-BE-16** | Mengedit Profil, Peran (*Role*), dan Departemen Anggota Tim | `PATCH /api/users/:id` | Super Admin |
-| **KF-BE-17** | Menolak Percobaan Hapus Akun Sendiri (*Self-Deletion Guard*) | `DELETE /api/users/:id` | Super Admin |
-| **KF-BE-18** | Menolak Hapus/Demote Akun Super Admin Tunggal Terakhir | `DELETE /api/users/:id` | Super Admin |
-| **KF-BE-19** | Melakukan Soft-Delete Akun Pengguna (`deleted_at = NOW()`) | `DELETE /api/users/:id` | Super Admin |
-| **KF-BE-20** | Mereset Kata Sandi Pengguna Tim oleh Administrator | `POST /api/users/:id/reset-password` | Super Admin |
-| **KF-BE-21** | Mengambil Daftar Proyek Aktif Sesuai Batasan Hak Akses Peran | `GET /api/projects` | Semua User Login |
-| **KF-BE-22** | Mengambil Daftar Seluruh Proyek yang Berstatus Terarsip | `GET /api/projects/archived` | Super Admin, PM |
-| **KF-BE-23** | Mengambil Rincian Lengkap Satu Proyek Berdasarkan ID | `GET /api/projects/:id` | Semua User Login |
-| **KF-BE-24** | Mengambil Daftar Anggota Tim yang Tergabung dalam Proyek | `GET /api/projects/:id/members` | Semua User Login |
-| **KF-BE-25** | Mendaftarkan Anggota Tim Baru ke Dalam Proyek | `POST /api/projects/:id/members` | Super Admin, PM |
-| **KF-BE-26** | Menghapus Keanggotaan Tim dari Proyek Tertentu | `DELETE /api/projects/:id/members/:userId` | Super Admin, PM |
-| **KF-BE-27** | Mendaftarkan Klien Guest ke Dalam Proyek Tertentu | `POST /api/projects/:id/clients` | Super Admin, PM |
-| **KF-BE-28** | Menghapus Akses Klien Guest dari Proyek Tertentu | `DELETE /api/projects/:id/clients/:userId` | Super Admin, PM |
-| **KF-BE-29** | Membuat Proyek Baru dan Auto-Enroll Seluruh Tim Aktif | `POST /api/projects` | Super Admin, PM |
-| **KF-BE-30** | Mengedit Informasi Nama dan Deskripsi Proyek | `PATCH /api/projects/:id` | Super Admin, PM |
-| **KF-BE-31** | Mengarsipkan Proyek dengan Cascading Soft-Delete ke Semua Task Anak | `DELETE /api/projects/:id` | Super Admin, PM |
-| **KF-BE-32** | Memulihkan (*Restore*) Proyek Terarsip Beserta Semua Task Anak | `POST /api/projects/:id/restore` | Super Admin, PM |
-| **KF-BE-33** | Mengambil Ringkasan Metrik Deliverables Publik Klien dengan Masking | `GET /api/projects/:id/client-view` | Client Guest |
-| **KF-BE-34** | Mengambil Ringkasan Statistik Status Deliverable dalam Proyek | `GET /api/projects/:id/summary` | Semua User Login |
-| **KF-BE-35** | Mengambil Data Board Kanban dengan Evaluasi Kunci Blokir Dependensi | `GET /api/projects/:id/board` | Semua User Login |
-| **KF-BE-36** | Mem-parsing Query Filter, Substring Search, Sort, dan Paginasi (`ezfilter`) | `GET /api/tasks` | Semua User Login |
-| **KF-BE-37** | Mengambil Detail Satu Deliverable Beserta Relasi Dependensi dan Audit | `GET /api/tasks/:id` | Semua User Login |
-| **KF-BE-38** | Membuat Deliverable Baru dengan Inisialisasi Versi Awal `version = 1` | `POST /api/tasks` | Super Admin, PM |
-| **KF-BE-39** | Memperbarui Deliverable dengan Proteksi Konkurensi Optimistic Locking (409) | `PATCH /api/tasks/:id` | Semua User Login |
-| **KF-BE-40** | Mengubah Status Deliverable dengan Validasi Wewenang Status & Blokir DAG | `PATCH /api/tasks/:id/status` | Semua User Login |
-| **KF-BE-41** | Melakukan Soft-Delete Deliverable dan Memutus Dependensi Aktif | `DELETE /api/tasks/:id` | Super Admin, PM |
-| **KF-BE-42** | Menambah Dependensi Prasyarat dengan Deteksi Siklus Melingkar (BFS) | `POST /api/tasks/:id/dependencies` | Super Admin, PM |
-| **KF-BE-43** | Menghapus Hubungan Dependensi Prasyarat Deliverable | `DELETE /api/tasks/:id/dependencies/:prereqId` | Super Admin, PM |
-| **KF-BE-44** | Menyimpan Metadata Lampiran Berkas Deliverable (*TaskAttachment*) | `POST /api/tasks/:id/attachments` | Super Admin, PM, Tim |
+| Kode KF | Kebutuhan Fungsional Induk (*Parent*) | Target Endpoint HTTP | Aktor Utama | Rincian Anak Skenario Pengujian (*Test Cases*) |
+| :---: | :--- | :--- | :--- | :--- |
+| **KF-BE-01** | **System Health & Welcome Monitoring**<br>Menyediakan layanan pemantauan status API dan konektivitas database. | `GET /`<br>`GET /health` | Publik, Monitoring | • **TC-BE-01.1 (Positive):** Return 200 OK welcome payload.<br>• **TC-BE-01.2 (Positive):** Return 200 OK dengan verifikasi koneksi PostgreSQL aktif & uptime. |
+| **KF-BE-02** | **User Authentication & Session Lifecycle**<br>Mengelola alur registrasi, validasi login, penerbitan token JWT, cookie aman, dan pengakhiran sesi. | `POST /api/auth/register`<br>`POST /api/auth/login`<br>`GET /api/auth/me`<br>`POST /api/auth/logout` | Publik, User Login | • **TC-BE-02.1 (Positive):** Registrasi user baru dengan validasi schema Zod.<br>• **TC-BE-02.2 (Positive):** Login valid mengembalikan token JWT & pasang cookie `HttpOnly; Secure`.<br>• **TC-BE-02.3 (Negative):** Login ditolak HTTP 401 jika email tidak terdaftar atau password salah.<br>• **TC-BE-02.4 (Security):** `GET /me` mengembalikan identitas user aktif dari token cookie.<br>• **TC-BE-02.5 (Positive):** Logout membersihkan cookie sesi `auth_token`. |
+| **KF-BE-03** | **Self-Service Profile & Password Management**<br>Memfasilitasi pembaruan profil mandiri dan pergantian kata sandi oleh pengguna aktif. | `GET /api/users/profile`<br>`PATCH /api/users/profile`<br>`PUT /api/users/change-password` | Semua User Login | • **TC-BE-03.1 (Positive):** Mengambil data profil user sendiri.<br>• **TC-BE-03.2 (Positive):** Update nama tampilan dan URL avatar profil sendiri.<br>• **TC-BE-03.3 (Positive):** Ubah kata sandi dengan konfirmasi sandi lama valid.<br>• **TC-BE-03.4 (Negative):** Tolak ubah kata sandi HTTP 400 jika sandi lama salah. |
+| **KF-BE-04** | **User Selection Directory**<br>Menyediakan daftar calon anggota proyek dan calon klien eksternal. | `GET /api/users/clients`<br>`GET /api/users/assignees` | Super Admin, PM, Tim | • **TC-BE-04.1 (Positive):** Mengambil daftar calon assignee deliverable internal.<br>• **TC-BE-04.2 (Positive):** Mengambil daftar calon klien tamu eksternal. |
+| **KF-BE-05** | **Team Administration & User Governance**<br>Menyediakan tata kelola anggota tim tingkat enterprise khusus Super Administrator. | `GET /api/users`<br>`POST /api/users`<br>`GET /api/users/:id`<br>`PATCH /api/users/:id`<br>`DELETE /api/users/:id`<br>`POST /api/users/:id/reset-password` | Super Admin | • **TC-BE-05.1 (Positive):** List user dengan pagination, substring search, filter role/dept.<br>• **TC-BE-05.2 (Negative):** Tolak pendaftaran user jika email duplikat.<br>• **TC-BE-05.3 (Positive):** Update data profil, role, dan departemen anggota tim.<br>• **TC-BE-05.4 (Positive):** Admin reset password user tanpa mengetahui sandi lama.<br>• **TC-BE-05.5 (Security):** Tolak percobaan hapus akun Super Admin sendiri (*Self-Delete Guard*).<br>• **TC-BE-05.6 (Security):** Tolak hapus/demote Super Admin tunggal terakhir sistem.<br>• **TC-BE-05.7 (Positive):** Soft-delete akun user (`deleted_at = NOW()`). |
+| **KF-BE-06** | **Project Lifecycle & Workspace Governance**<br>Mengelola siklus hidup proyek mulai dari inisiasi, pengarsipan, hingga pemulihan kembali. | `GET /api/projects`<br>`POST /api/projects`<br>`GET /api/projects/:id`<br>`PATCH /api/projects/:id`<br>`DELETE /api/projects/:id`<br>`GET /api/projects/archived`<br>`POST /api/projects/:id/restore` | Super Admin, PM, Tim | • **TC-BE-06.1 (Positive):** Buat proyek baru dengan auto-enrollment tim aktif.<br>• **TC-BE-06.2 (Positive):** List proyek aktif terfilter sesuai batasan role user.<br>• **TC-BE-06.3 (Positive):** Edit nama dan deskripsi proyek.<br>• **TC-BE-06.4 (Positive):** Arsipkan proyek (cascading soft-delete ke seluruh task anak).<br>• **TC-BE-06.5 (Positive):** Ambil daftar seluruh proyek terarsip.<br>• **TC-BE-06.6 (Positive):** Pulihkan (*restore*) proyek terarsip beserta seluruh task anak dalam 1 transaksi. |
+| **KF-BE-07** | **Project Collaboration & Membership Access**<br>Mengatur hak keterlibatan anggota tim dan akses tamu klien pada spesifik proyek. | `GET /api/projects/:id/members`<br>`POST /api/projects/:id/members`<br>`DELETE /api/projects/:id/members/:userId`<br>`POST /api/projects/:id/clients`<br>`DELETE /api/projects/:id/clients/:userId` | Super Admin, PM | • **TC-BE-07.1 (Positive):** List seluruh anggota dan klien yang terdaftar pada proyek.<br>• **TC-BE-07.2 (Positive):** Daftarkan anggota tim baru ke proyek.<br>• **TC-BE-07.3 (Positive):** Hapus anggota tim dari proyek.<br>• **TC-BE-07.4 (Positive):** Daftarkan klien tamu ke proyek.<br>• **TC-BE-07.5 (Positive):** Cabut akses klien tamu dari proyek. |
+| **KF-BE-08** | **Deliverables Query Engine (`ezfilter`) & CRUD**<br>Menyediakan operasi data deliverable dan engine filter lanjutan berkinerja tinggi. | `GET /api/tasks`<br>`GET /api/tasks/:id`<br>`POST /api/tasks`<br>`DELETE /api/tasks/:id` | Super Admin, PM, Tim | • **TC-BE-08.1 (Positive):** List task dengan filter exact, substring search, range filter, multi-sorting, dan pagination.<br>• **TC-BE-08.2 (Positive):** Buat deliverable baru dengan inisialisasi awal `version = 1`.<br>• **TC-BE-08.3 (Positive):** Ambil detail task lengkap dengan relasi dependensi dan riwayat audit.<br>• **TC-BE-08.4 (Positive):** Soft-delete task dan putus relasi dependensi aktif. |
+| **KF-BE-09** | **True Optimistic Concurrency Control (OCC)**<br>Mencegah konflik penulisan bersamaan (*lost-update problem*) pada mutasi deliverable. | `PATCH /api/tasks/:id` | Semua User Terotorisasi | • **TC-BE-09.1 (Positive):** Mutasi berhasil jika versi payload cocok dengan versi DB, increment version.<br>• **TC-BE-09.2 (Negative):** Tolak mutasi dengan HTTP 409 Conflict jika payload versi kedaluwarsa. |
+| **KF-BE-10** | **DAG-Based Dependency & Cycle Prevention Engine**<br>Menerapkan penguncian tugas berprasyarat dan mencegah ketergantungan melingkar. | `POST /api/tasks/:id/dependencies`<br>`DELETE /api/tasks/:id/dependencies/:prereqId`<br>`PATCH /api/tasks/:id/status` | Super Admin, PM, Tim | • **TC-BE-10.1 (Positive):** Daftarkan task prasyarat (*prerequisite*).<br>• **TC-BE-10.2 (Negative):** Tolak dependensi melingkar ($A \rightarrow B \rightarrow A$) via algoritma BFS/DFS siklus.<br>• **TC-BE-10.3 (Negative):** Tolak transisi tugas ke `IN_PROGRESS` / `DONE` jika prasyarat belum `DONE` (HTTP 422 `TASK_BLOCKED`).<br>• **TC-BE-10.4 (Positive):** Hapus relasi prasyarat task. |
+| **KF-BE-11** | **State-Based RBAC/ABAC Permissions Enforcement**<br>Menjamin hak transisi status hanya dapat dilakukan oleh pemilik wewenang yang sah. | `PATCH /api/tasks/:id/status` | Semua User Login | • **TC-BE-11.1 (Security):** Larang PM/Admin menyelesaikan tugas orang lain ke `DONE` (khusus assignee sah).<br>• **TC-BE-11.2 (Security):** Batasi pembukaan kembali tugas selesai (*Reopen*) hanya untuk PM & Admin.<br>• **TC-BE-11.3 (Security):** Larang tim engineer mengedit judul, deskripsi, atau assignee tugas. |
+| **KF-BE-12** | **Client Guest Isolation & Data Masking Engine**<br>Menjamin keamanan data internal dan menyamarkan identitas insinyur bagi pemangku kepentingan luar. | `GET /api/projects/:id/client-view` | Client Guest | • **TC-BE-12.1 (Positive):** Klien hanya melihat deliverable bertanda `client_visible = true`.<br>• **TC-BE-12.2 (Security):** Identitas insinyur internal (nama, email, avatar, dept) disamarkan menjadi *Assigned Specialist*.<br>• **TC-BE-12.3 (Positive):** Menghitung persentase progres dan metrik penyelesaian proyek. |
+| **KF-BE-13** | **Deliverables Attachment Management**<br>Menyediakan pencatatan metadata berkas lampiran pendukung deliverable. | `POST /api/tasks/:id/attachments` | Super Admin, PM, Tim | • **TC-BE-13.1 (Positive):** Simpan metadata lampiran berkas (nama berkas & URL) pada deliverable. |
+| **KF-BE-14** | **Immutable Audit Trail & History Query**<br>Merekam setiap mutasi status/kolom ke dalam tabel riwayat audit secara atomik. | `GET /api/audit-logs` | Super Admin, PM, Tim | • **TC-BE-14.1 (Positive):** Query riwayat log audit menggunakan filter `ezfilter`.<br>• **TC-BE-14.2 (Security):** Batasi visibilitas log tim internal hanya untuk proyek tempat mereka tergabung. |
+| **KF-BE-15** | **Kanban Board & Dynamic Block Evaluation**<br>Menyajikan agregasi data kolom status dan mengevaluasi status blokir real-time. | `GET /api/projects/:id/summary`<br>`GET /api/projects/:id/board` | Semua User Login | • **TC-BE-15.1 (Positive):** Agregasi jumlah task per kolom status.<br>• **TC-BE-15.2 (Positive):** Sajikan data board deliverable dengan penanda dinamis `is_blocked = true/false`. |
+| **KF-BE-16** | **Daily Standup Intelligence Engine**<br>Mengagregasi rekapan pekerjaan 24 jam terakhir secara otomatis berbasis audit log. | `GET /api/reports/standup-summary`<br>`GET /api/projects/:id/standup-summary` | Super Admin, PM, Tim | • **TC-BE-16.1 (Positive):** Rekap tugas yang berubah ke `DONE` kemarin (*Completed Yesterday*).<br>• **TC-BE-16.2 (Positive):** Rekap tugas aktif yang terganjal dependensi belum selesai (*Blocked Today*).<br>• **TC-BE-16.3 (Positive):** Saring laporan standup berdasarkan tanggal atau ID proyek tertentu. |
 
 ---
 
-## 🎯 Hubungan Nyata: Dari Kebutuhan Fungsional ke QA Automation
+## 🖥️ BAGIAN 2: KEBUTUHAN FUNGSIONAL FRONTEND (INDUK & ANAK TEST CASE)
 
-- **Frontend Automated Verification:** Diuji secara otomatis melalui Node Native Test Runner via `tsx --test` (`src/lib/utils.test.ts` & `src/lib/query-builder.test.ts`), linting ketat Biome (`npm run lint`), dan kompilasi tipe TypeScript (`npx tsc --noEmit`).
-- **Backend Automated Verification:** Diuji secara menyeluruh melalui integrasi suite Supertest & Node Test Runner (`src/test_api_flow.ts`, `src/test_user_flow.ts`, dan `src/services/task.service.test.ts`) yang memvalidasi siklus penuh autentikasi, DAG blocking, OCC 409 conflict, RBAC status transition, isolasi klien, dan manajemen tim.
-- **Total Keseluruhan:** **89 Kebutuhan Fungsional Faktual** yang saling berpasangan secara harmonis di sistem Relay!
+| Kode KF | Kebutuhan Fungsional Induk (*Parent*) | Komponen File Asli | Aktor Utama | Rincian Anak Skenario Pengujian (*Test Cases*) |
+| :---: | :--- | :--- | :--- | :--- |
+| **KF-FE-01** | **Autentikasi Pengguna & Portal Login**<br>Menyediakan antarmuka interaktif untuk masuk ke sistem Relay Engine. | `app/login/page.tsx` | Semua Pengunjung | • **TC-FE-01.1 (Positive):** Render form login lengkap (email, password, toggle show/hide).<br>• **TC-FE-01.2 (Validation):** Validasi client-side format email dan kata sandi required.<br>• **TC-FE-01.3 (UI State):** Tampilkan indikator loading (*Authenticating...*) dan disable tombol saat proses.<br>• **TC-FE-01.4 (Negative):** Tampilkan banner pesan kesalahan saat kredensial salah.<br>• **TC-FE-01.5 (Helper):** Tombol *Quick Demo Switcher* untuk auto-fill akun Super Admin, PM, FE, BE, Client. |
+| **KF-FE-02** | **Navigasi Global & Sesi Akun (Navbar)**<br>Menyediakan navigasi menu utama dan visualisasi identitas pengguna aktif. | `components/ui/Navbar.tsx` | Semua User Login | • **TC-FE-02.1 (Positive):** Render nama user, avatar preview, dan badge peran berwarna.<br>• **TC-FE-02.2 (RBAC UI):** Tampilkan link navigasi kontekstual (Dashboard, Standup, Team Admin jika Super Admin, Settings).<br>• **TC-FE-02.3 (Positive):** Tombol logout mengosongkan store Zustand dan redirect ke `/login`. |
+| **KF-FE-03** | **Workspace Context & Project Selector**<br>Menyediakan seleksi proyek aktif dan menu pengelolaan workspace proyek. | `app/page.tsx` | Semua User Login | • **TC-FE-03.1 (Positive):** Dropdown pemilih proyek aktif dengan auto-load data board.<br>• **TC-FE-03.2 (Positive):** Menu aksi workspace untuk membuka modal Member, Arsipkan Proyek, dan Lihat Arsip. |
+| **KF-FE-04** | **Pengelolaan Proyek & Kolaborasi Tim (Modals Proyek)**<br>Menyediakan dialog modal untuk membuat, mengelola anggota, mengarsipkan, dan memulihkan proyek. | `components/board/CreateProjectModal.tsx`<br>`components/board/ProjectMembersModal.tsx`<br>`components/board/ArchivedProjectsModal.tsx`<br>`app/page.tsx` | Super Admin, PM | • **TC-FE-04.1 (Positive):** Form modal pembuatan proyek baru dengan validasi nama proyek.<br>• **TC-FE-04.2 (Positive):** Modal tambah dan cabut akses anggota tim internal pada proyek aktif.<br>• **TC-FE-04.3 (Positive):** Modal tambah dan cabut akses tamu klien pada proyek aktif.<br>• **TC-FE-04.4 (Positive):** Dialog konfirmasi SweetAlert2 untuk pengarsipan (*Archive*) proyek.<br>• **TC-FE-04.5 (Positive):** Modal daftar proyek terarsip dan tombol pemulihan (*Restore*) proyek. |
+| **KF-FE-05** | **Papan Alur Kerja Kanban (Visual Deliverables Board)**<br>Menyajikan 4 kolom visual status pekerjaan beserta kartu tugas interaktif. | `components/board/KanbanColumn.tsx`<br>`components/board/TaskCard.tsx` | Semua User Login | • **TC-FE-05.1 (Positive):** Render 4 kolom Kanban (`TODO`, `IN_PROGRESS`, `IN_REVIEW`, `DONE`) beserta hitungan kartu.<br>• **TC-FE-05.2 (Positive):** Render kartu tugas dengan badge departemen, assignee avatar, dan tanggal tenggat.<br>• **TC-FE-05.3 (DAG UI):** Render badge gembok terkunci (*BLOCKED Badge*) saat ada prasyarat belum tuntas.<br>• **TC-FE-05.4 (Positive):** Klik kartu tugas membuka modal rincian mendalam. |
+| **KF-FE-06** | **Tampilan Tabel Deliverables (`ezfilter` Data Table)**<br>Menyajikan data deliverable dalam bentuk tabel enterprise dengan filter query canggih. | `components/board/DeliverablesTableView.tsx` | Semua User Login | • **TC-FE-06.1 (Positive):** Beralih antarmuka antara Mode Papan Kanban dan Mode Tabel (*View Switcher*).<br>• **TC-FE-06.2 (Positive):** Pencarian substring judul/deskripsi dengan debouncing 350ms.<br>• **TC-FE-06.3 (Positive):** Filter data berdasarkan dropdown departemen, status, dan visibilitas klien.<br>• **TC-FE-06.4 (Positive):** Multi-column sorting (klik header kolom untuk urutan asc/desc).<br>• **TC-FE-06.5 (Positive):** Navigasi paginasi server-side (pilihan 10, 25, 50 baris per halaman, tombol First, Prev, Next, Last). |
+| **KF-FE-07** | **Penyaring Tugas Personal (*My Tasks Filter*)**<br>Memfasilitasi fokus kerja individual dengan menyaring hanya tugas milik sendiri. | `app/page.tsx`<br>`components/board/DeliverablesTableView.tsx` | Tim Internal | • **TC-FE-07.1 (Positive):** Tombol filter "My Tasks" langsung menyembunyikan tugas milik anggota tim lain. |
+| **KF-FE-08** | **Formulir Pembuatan Deliverable Baru**<br>Menyediakan formulir modal tervalidasi untuk merancang tugas dan deliverable. | `components/board/CreateTaskModal.tsx` | Super Admin, PM | • **TC-FE-08.1 (Validation):** Form modal berbasis Zod resolver (judul minimal 3 karakter, pilihan departemen).<br>• **TC-FE-08.2 (Positive):** Dynamic fetch daftar calon assignee dari backend.<br>• **TC-FE-08.3 (Positive):** Switcher visibilitas publik klien (`client_visible`). |
+| **KF-FE-09** | **Modal Rincian Lengkap & Tata Kelola Deliverable**<br>Pusat operasional satu tugas: sunting detail, dependensi, lampiran, dan riwayat audit. | `components/board/TaskDetailModal.tsx` | Semua User Login | • **TC-FE-09.1 (Positive):** Tab Overview: edit judul, deskripsi, tenggat waktu, dan assignee.<br>• **TC-FE-09.2 (Security):** Transisi status dengan validasi RBAC (hanya assignee sah yang bisa set ke `DONE`).<br>• **TC-FE-09.3 (DAG Ops):** Tab Dependencies: daftar prasyarat, tambah prasyarat, hapus prasyarat, dan error alert jika siklus.<br>• **TC-FE-09.4 (Audit Ops):** Tab Audit Trail: timeline jejak audit (waktu, pelaku, kolom berubah, nilai lama & baru).<br>• **TC-FE-09.5 (Attachment):** Tab Attachments: daftar berkas dan form input lampiran baru (nama & URL). |
+| **KF-FE-10** | **Dialog Resolusi Konflik Konkurensi (Optimistic Locking Modal)**<br>Menyediakan antarmuka rekonsiliasi saat terjadi tabrakan pembaruan data bersamaan. | `components/ui/ConflictModal.tsx` | Semua User Login | • **TC-FE-10.1 (Positive):** Modal otomatis muncul saat aksi menerima respons HTTP 409 Conflict.<br>• **TC-FE-10.2 (Positive):** Menampilkan perbandingan data lokal vs data server dan tombol muat ulang data terbaru. |
+| **KF-FE-11** | **Portal Khusus Klien Tamu (*Client Guest Portal*)**<br>Antarmuka transparan dan terisolasi untuk klien luar tanpa membocorkan privasi teknis. | `components/client/ClientMetricsView.tsx` | Client Guest | • **TC-FE-11.1 (Positive):** Tampilan otomatis beralih ke portal klien saat akun `CLIENT_GUEST` login.<br>• **TC-FE-11.2 (Positive):** Progress bar penyelesaian deliverable proyek real-time.<br>• **TC-FE-11.3 (Security):** Daftar deliverable publik dengan penyamaran nama engineer (*Assigned Specialist*). |
+| **KF-FE-12** | **Portal Tata Kelola Anggota Tim (Admin User Management)**<br>Antarmuka manajemen seluruh pengguna tim untuk Super Administrator. | `app/admin/users/page.tsx` | Super Admin | • **TC-FE-12.1 (Positive):** Kartu ringkasan metrik statistik pengguna (Total, Admin, PM, Team, Client).<br>• **TC-FE-12.2 (Positive):** Pencarian real-time anggota tim dengan jeda debounce 300ms dan filter role/dept.<br>• **TC-FE-12.3 (Positive):** Modal tambah pengguna baru dengan pengecekan duplikasi email.<br>• **TC-FE-12.4 (Positive):** Modal edit profil, role, dan departemen anggota tim.<br>• **TC-FE-12.5 (Positive):** Modal admin reset password user.<br>• **TC-FE-12.6 (Security):** Dialog konfirmasi deaktivasi akun dengan proteksi anti-hapus akun sendiri. |
+| **KF-FE-13** | **Pengaturan Akun & Keamanan Mandiri (*Settings*)**<br>Antarmuka pengelolaan akun pribadi dan pembaharuan kata sandi. | `app/settings/page.tsx` | Semua User Login | • **TC-FE-13.1 (Positive):** Menampilkan informasi identitas pribadi (email, role, departemen, tanggal gabung).<br>• **TC-FE-13.2 (Positive):** Form edit nama profil dan URL foto avatar dengan pratinjau gambar langsung (*live preview*).<br>• **TC-FE-13.3 (Positive):** Form pergantian kata sandi dengan verifikasi sandi lama dan show/hide toggle. |
+| **KF-FE-14** | **Dashboard Laporan Intelijen Daily Standup**<br>Antarmuka pelaporan harian otomatis untuk memantau progres kemarin dan hambatan hari ini. | `app/standup/page.tsx`<br>`components/standup/StandupReportView.tsx` | Super Admin, PM, Tim | • **TC-FE-14.1 (Positive):** Dropdown penyaring cakupan proyek (*Project Scope Filter*) dan pemilih tanggal.<br>• **TC-FE-14.2 (Positive):** Kartu metrik agregasi: *Completed Yesterday* vs *Blocked Today*.<br>• **TC-FE-14.3 (Positive):** Daftar tugas selesai kemarin beserta nama engineer pelaksana.<br>• **TC-FE-14.4 (Positive):** Daftar tugas terblokir hari ini beserta detail dependensi yang belum rampung. |
+| **KF-FE-15** | **Standar 4 State Asinkron Antarmuka (UI Resilience)**<br>Menjamin pengalaman pengguna yang tangguh pada setiap pemanggilan data asinkron. | `components/ui/LoadingState.tsx`<br>`components/ui/EmptyState.tsx`<br>`components/ui/ErrorState.tsx` | Semua Pengguna | • **TC-FE-15.1 (UI State):** Loading State: menampilkan skeleton shimmer saat request berlangsung.<br>• **TC-FE-15.2 (UI State):** Empty State: menampilkan ilustrasi kontekstual dan tombol CTA jika data kosong.<br>• **TC-FE-15.3 (UI State):** Error State: menampilkan pesan kesalahan manusiawi dan tombol coba lagi (*Retry*). |
+
+---
+
+## 🎯 BAGIAN 3: MATRIKS KORELASI KE TEST SUITE PLAYWRIGHT
+
+Seluruh KF Induk dan Test Case Anak di atas diuji secara otomatis pada direktori `relay-qa-automation-test/tests/`:
+
+| File Test Suite Playwright | Cakupan KF Induk yang Diverifikasi | Fokus Skenario Pengujian Utama |
+| :--- | :--- | :--- |
+| `01_auth_ui.spec.ts` | **KF-FE-01**, **KF-BE-02** | Render form login, validasi input, kegagalan password (401), login sukses, dan quick demo switcher. |
+| `02_api.spec.ts` | **KF-BE-01**, **KF-BE-02**, **KF-BE-11** | Healthcheck 200 OK, login API, JWT session, dan proteksi otorisasi rute tanpa token. |
+| `03_users_admin.spec.ts` | **KF-FE-12**, **KF-BE-05** | Akses admin portal, pencarian tim debounced, filter role, CRUD user API, dan proteksi hapus diri sendiri. |
+| `04_project_lifecycle.spec.ts` | **KF-FE-04**, **KF-BE-06**, **KF-BE-07** | Siklus proyek baru dengan auto-enroll tim, soft-delete arsip proyek, dan pemulihan dalam 1 transaksi. |
+| `05_kanban_deliverables.spec.ts` | **KF-FE-05**, **KF-FE-06**, **KF-FE-07**, **KF-BE-08**, **KF-BE-15** | 4 kolom Kanban, ezfilter data table, filter personal My Tasks, dan multi-sorting kolom. |
+| `06_dag_dependencies.spec.ts` | **KF-FE-09**, **KF-BE-10** | DAG status locking (HTTP 422 `TASK_BLOCKED`), dan penolakan siklus dependensi melingkar (A $\rightarrow$ B $\rightarrow$ A). |
+| `07_concurrency_occ.spec.ts` | **KF-FE-10**, **KF-BE-09** | Optimistic Concurrency Control: penolakan penulisan versi kedaluwarsa dengan HTTP 409 Conflict. |
+| `08_rbac_permissions.spec.ts` | **KF-FE-09**, **KF-BE-11** | Aturan ketat pelaksana: PM/Super Admin dilarang menyelesaikan tugas milik engineer lain ke status `DONE`. |
+| `09_client_masking.spec.ts` | **KF-FE-11**, **KF-BE-12** | Client Guest Portal: penyamaran identitas internal engineer menjadi *Assigned Specialist* dan isolasi publik. |
+| `10_standup_report.spec.ts` | **KF-FE-14**, **KF-BE-16** | Daily Standup: rekap otomatis 24 jam tugas selesai kemarin dan deteksi tugas terblokir hari ini. |
